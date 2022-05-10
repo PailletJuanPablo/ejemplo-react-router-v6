@@ -1,70 +1,43 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# React Router 6
+El objetivo es armar un sitio con las siguientes rutas
+- Inicio == '/'
+- Nosotros == '/nosotros/
+- Productos == '/productos'
+    - Detalle del producto == '/productos/:id'
+    - Formulario para agregar o editar un producto == '/productos/nuevo' o '/productos/editar/:id'
 
-## Available Scripts
 
-In the project directory, you can run:
+## Pasos con V6
 
-### `npm start`
+- Instalar la librería 
+`npm i react-router-dom`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- Englobar la aplicación en el componente <BrowserRouter />
+    - Importar BrowserRouter
+    - Agregar la etiqueta envolviendo a componente <App /> en archivo index.js 
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- Agregar los links de navegación con componente <Link /> de *react-router-dom*, estableciendo la ruta al hacer click con la prop to="/ruta"
 
-### `npm test`
+    <Link to="/nosotros"> Texto del link </Link>
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Para vincular rutas con componentes utilizamos componente <Routes /> (en la v5 era switch) para englobar lo que va a renderizar contenido dinámico. Recibe como parámetro una propiedad element={ <Componente /> } y path="/ruta"
 
-### `npm run build`
+- Para rutas anidadas (rutas hijas, por ejemplo "/productos/nuevo"). Componente <Route />
+    <Route path="/productos" element={ <PantallaContenedora /> } />
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+        <Route path="/nuevo" element={ <FormularioProducto /> }>
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+    </Route>
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+    !! P**or defecto esto no va a renderizar rutas hijas**
 
-### `npm run eject`
+- En componente padre (en el ejemplo de arriba, sería PantallaContenedora, agregar <Outlet /> para especificar donde se va a renderizar el contenido dinámico de las rutas hijas.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Diferencias principales con la v5
+- NO se usa <Switch>, en su lugar <Routes>
+- NO se usa <Component>, en su lugar element={} dentro de <Route>
+- NO se usa exact en el path de Route 
+- Anidar rutas (agregar rutas hijas a un path padre)
+    - Especificar rutas hijas dentro de un componente <Route > padre
+    - En el componente padre de las mismas agregar <Outlet /> para renderizar el contenido de las rutas hijas
